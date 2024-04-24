@@ -522,17 +522,31 @@ class CodeGenConfig(
             --sub-package-name-datafetchers=$subPackageNameDatafetchers
             --sub-package-name-types=$subPackageNameTypes
             --sub-package-name-docs=$subPackageNameDocs
-            ${if (generateBoxedTypes) "--generate-boxed-types" else ""}
-            ${if (writeToFiles) "--write-to-disk" else ""}
+            ${if (generateBoxedTypes) { "--generate-boxed-types"
+        } else { ""
+        }}
+            ${if (writeToFiles) { "--write-to-disk"
+        } else { ""
+        }}
             --language=$language
-            ${if (generateClientApi) "--generate-client" else ""}
-            ${if (generateDataTypes) "--generate-data-types" else "--skip-generate-data-types"}
+            ${if (generateClientApi) { "--generate-client"
+        } else { ""
+        }}
+            ${if (generateDataTypes) { "--generate-data-types"
+        } else { "--skip-generate-data-types"
+        }}
             ${includeQueries.joinToString("\n") { "--include-query=$it" }}
             ${includeMutations.joinToString("\n") { "--include-mutation=$it" }}
-            ${if (skipEntityQueries) "--skip-entities" else ""}
+            ${if (skipEntityQueries) { "--skip-entities"
+        } else { ""
+        }}
             ${typeMapping.map { "--type-mapping ${it.key}=${it.value}" }.joinToString("\n")}           
-            ${if (shortProjectionNames) "--short-projection-names" else ""}
-            ${if (addGeneratedAnnotation) "--add-generated-annotation" else ""}
+            ${if (shortProjectionNames) { "--short-projection-names"
+        } else { ""
+        }}
+            ${if (addGeneratedAnnotation) { "--add-generated-annotation"
+        } else { ""
+        }}
             ${schemas.joinToString(" ")}
         """.trimIndent()
     }

@@ -28,7 +28,7 @@ class ClassnameShortener {
         fun shorten(name: String): String {
             val sb = StringBuilder()
             val splitByUnderscore = name.split("_")
-            splitByUnderscore.filter { it.isNotEmpty() }.forEach { it ->
+            splitByUnderscore.filter { it.isNotEmpty() }.forEach {
                 val fieldSb = StringBuilder()
                 val splitByCapitalized = it.split(Regex("(?=[A-Z])"))
                 splitByCapitalized.filter { it.isNotEmpty() }.forEach {

@@ -228,9 +228,14 @@ private fun generateCode(config: CodeGenConfig, value: Value<Value<*>>, annotati
                 val className = string.dropLast(ParserConstants.CLASS_LENGTH)
                 // Use annotationName and className in the PackagerParserUtil to get Class Package name.
                 val classPackage = PackageParserUtil.getClassPackage(config, annotationName, className)
-                if (classPackage.isNotEmpty()) CodeBlock.of("\$T.class", ClassName.get(classPackage, className))
-                else CodeBlock.of("\$S", string)
-            } else CodeBlock.of("\$S", string)
+                if (classPackage.isNotEmpty()) {
+                    CodeBlock.of("\$T.class", ClassName.get(classPackage, className))
+                } else {
+                    CodeBlock.of("\$S", string)
+                }
+            } else {
+                CodeBlock.of("\$S", string)
+            }
         }
         is FloatValue -> CodeBlock.of("\$L", (value as FloatValue).value)
         // In an enum value the prefix (key in the parameters map for the enum) is used to get the package name from the config
@@ -240,8 +245,11 @@ private fun generateCode(config: CodeGenConfig, value: Value<Value<*>>, annotati
             ClassName.get(PackageParserUtil.getEnumPackage(config, annotationName, prefix), (value as EnumValue).name)
         )
         is ArrayValue ->
-            if ((value as ArrayValue).values.isEmpty()) CodeBlock.of("{}")
-            else CodeBlock.of("{\$L}", (value as ArrayValue).values.joinToString { v -> generateCode(config = config, value = v, annotationName = annotationName, prefix = if (v is EnumValue) prefix else "").toString() })
+        if ((value as ArrayValue).values.isEmpty()) {
+            CodeBlock.of("{}")
+        } else {
+            CodeBlock.of("{\$L}", (value as ArrayValue).values.joinToString { v -> generateCode(config = config, value = v, annotationName = annotationName, prefix = if (v is EnumValue) prefix else "").toString() })
+        }
         else -> CodeBlock.of("\$L", value)
     }
 

@@ -256,7 +256,11 @@ class ClientApiGenerator(private val config: CodeGenConfig, private val document
                     .build()
             )
 
-        if (generatedClasses.contains(clazzName)) return CodeGenResult() else generatedClasses.add(clazzName)
+        if (generatedClasses.contains(clazzName)) {
+            return CodeGenResult()
+        } else {
+            generatedClasses.add(clazzName)
+        }
 
         val fieldDefinitions = type.fieldDefinitions() + document.definitions.filterIsInstance<ObjectTypeExtensionDefinition>().filter { it.name == type.name }.flatMap { it.fieldDefinitions }
 
@@ -269,7 +273,10 @@ class ClientApiGenerator(private val config: CodeGenConfig, private val document
                     includeBaseTypes = it.inputValueDefinitions.isNotEmpty(),
                     includeScalarTypes = it.inputValueDefinitions.isNotEmpty()
                 )
-                if (typeDefinition != null) it to typeDefinition else null
+                if (typeDefinition != null) {
+                    it to typeDefinition
+                } else { null
+                }
             }
             .map { (fieldDef, typeDef) ->
                 val projectionName = "${typeDef.name.capitalized()}Projection"
@@ -385,7 +392,11 @@ class ClientApiGenerator(private val config: CodeGenConfig, private val document
                     .build()
             )
 
-        if (generatedClasses.contains(clazzName)) return CodeGenResult() else generatedClasses.add(clazzName)
+        if (generatedClasses.contains(clazzName)) {
+            return CodeGenResult()
+        } else {
+            generatedClasses.add(clazzName)
+        }
 
         val codeGenResult = federatedTypes.map { objTypeDef ->
             val projectionName = "Entities${objTypeDef.name.capitalized()}KeyProjection"
@@ -515,7 +526,11 @@ class ClientApiGenerator(private val config: CodeGenConfig, private val document
     private fun createSubProjectionType(type: TypeDefinition<*>, parent: TypeSpec, root: TypeSpec, prefix: String, processedEdges: Set<Pair<String, String>>, queryDepth: Int): Pair<TypeSpec.Builder, CodeGenResult>? {
         val className = ClassName.get(BaseSubProjectionNode::class.java)
         val clazzName = "${prefix}Projection"
-        if (generatedClasses.contains(clazzName)) return null else generatedClasses.add(clazzName)
+        if (generatedClasses.contains(clazzName)) {
+            return null
+        } else {
+            generatedClasses.add(clazzName)
+        }
 
         val parentJavaType = TypeVariableName.get("PARENT").withBounds(ParameterizedTypeName.get(className, TypeVariableName.get("?"), TypeVariableName.get("?")))
         val rootJavaType = TypeVariableName.get("ROOT").withBounds(ParameterizedTypeName.get(className, TypeVariableName.get("?"), TypeVariableName.get("?")))
@@ -545,7 +560,10 @@ class ClientApiGenerator(private val config: CodeGenConfig, private val document
                 .filterSkipped()
                 .mapNotNull {
                     val typeDefinition = it.type.findTypeDefinition(document, true)
-                    if (typeDefinition != null) it to typeDefinition else null
+                    if (typeDefinition != null) {
+                        it to typeDefinition
+                    } else { null
+                    }
                 }
                 .map { (fieldDef, typeDef) ->
                     val projectionName = "${typeDef.name.capitalized()}Projection"

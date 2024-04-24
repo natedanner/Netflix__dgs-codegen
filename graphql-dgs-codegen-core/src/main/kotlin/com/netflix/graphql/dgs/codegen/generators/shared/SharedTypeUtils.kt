@@ -104,7 +104,9 @@ internal fun <T> parseMappedType(
                 }
             }
             is GenericSymbol.CloseBracket -> {
-                if (stack.isEmpty()) throw IllegalArgumentException("Wrong mapped type $mappedType")
+                if (stack.isEmpty()) {
+                    throw IllegalArgumentException("Wrong mapped type $mappedType")
+                }
 
                 val current = stack.removeLast()
                 if (iterator.getLastSymbolIndex() + 1 <= symbolAhead.index) {
@@ -127,7 +129,9 @@ internal fun <T> parseMappedType(
         }
     }
 
-    if (stack.isNotEmpty()) throw IllegalArgumentException("Wrong mapped type $mappedType")
+    if (stack.isNotEmpty()) {
+        throw IllegalArgumentException("Wrong mapped type $mappedType")
+    }
     return mappedType.toTypeName(true)
 }
 

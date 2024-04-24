@@ -103,19 +103,27 @@ class KotlinInputTypeGenerator(config: CodeGenConfig, document: Document) :
             is IntValue -> CodeBlock.of("%L", value.value)
             is StringValue -> {
                 val localeValueOverride = checkAndGetLocaleValue(value, type)
-                if (localeValueOverride != null) CodeBlock.of("%L", localeValueOverride)
-                else CodeBlock.of("%S", value.value)
+                if (localeValueOverride != null) {
+                    CodeBlock.of("%L", localeValueOverride)
+                } else {
+                    CodeBlock.of("%S", value.value)
+                }
             }
             is FloatValue -> CodeBlock.of("%L", value.value)
             is EnumValue -> CodeBlock.of("%M", MemberName(type.className, value.name))
             is ArrayValue ->
-                if (value.values.isEmpty()) CodeBlock.of("emptyList()")
-                else CodeBlock.of("listOf(%L)", value.values.joinToString { v -> generateCode(v, type).toString() })
+            if (value.values.isEmpty()) {
+                CodeBlock.of("emptyList()")
+            } else {
+                CodeBlock.of("listOf(%L)", value.values.joinToString { v -> generateCode(v, type).toString() })
+            }
             else -> CodeBlock.of("%L", value)
         }
 
     private fun checkAndGetLocaleValue(value: StringValue, type: KtTypeName): String? {
-        if (type.className.canonicalName == "java.util.Locale") return "Locale.forLanguageTag(\"${value.value}\")"
+        if (type.className.canonicalName == "java.util.Locale") {
+            return "Locale.forLanguageTag(\"${value.value}\")"
+        }
         return null
     }
 
@@ -192,12 +200,24 @@ abstract class AbstractKotlinDataTypeGenerator(
                 parameterSpec.defaultValue(field.default)
             } else {
                 when (returnType) {
-                    STRING -> if (field.nullable) parameterSpec.defaultValue("null")
-                    INT -> if (field.nullable) parameterSpec.defaultValue("null")
-                    FLOAT -> if (field.nullable) parameterSpec.defaultValue("null")
-                    DOUBLE -> if (field.nullable) parameterSpec.defaultValue("null")
-                    BOOLEAN -> if (field.nullable) parameterSpec.defaultValue("null")
-                    else -> if (field.nullable) parameterSpec.defaultValue("null")
+                    STRING -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    INT -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    FLOAT -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    DOUBLE -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    BOOLEAN -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    else -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
                 }
             }
             funConstructorBuilder.addParameter(parameterSpec.build())

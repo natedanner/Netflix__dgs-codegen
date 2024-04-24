@@ -907,7 +907,7 @@ class CodeGenTest {
             )
         ).generate()
 
-        assertThat(dataTypes[0].typeSpec.methodSpecs).filteredOn { it.name.equals("<init>") && it.parameters.size > 0 }.hasSize(0)
+        assertThat(dataTypes[0].typeSpec.methodSpecs).filteredOn {  it.name == "<init>" && it.parameters.size > 0 }.hasSize(0)
         assertCompilesJava(dataTypes)
     }
 
@@ -931,7 +931,7 @@ class CodeGenTest {
             )
         ).generate()
 
-        assertThat(dataTypes[0].typeSpec.methodSpecs).filteredOn { it.name.equals("<init>") && it.parameters.size > 0 }.hasSize(1)
+        assertThat(dataTypes[0].typeSpec.methodSpecs).filteredOn {  it.name == "<init>" && it.parameters.size > 0 }.hasSize(1)
         assertCompilesJava(dataTypes)
     }
 

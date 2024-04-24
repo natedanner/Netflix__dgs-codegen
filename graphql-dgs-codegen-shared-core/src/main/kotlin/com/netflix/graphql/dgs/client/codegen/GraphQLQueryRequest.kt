@@ -41,7 +41,7 @@ class GraphQLQueryRequest @JvmOverloads constructor(
     }
 
     val inputValueSerializer =
-        if (options?.allowNullablePropertyInputValues == true) {
+        if (options?.allowNullablePropertyInputValues) {
             NullableInputValueSerializer(options.scalars)
         } else {
             InputValueSerializer(options?.scalars ?: emptyMap())
